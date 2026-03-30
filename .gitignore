@@ -1,1 +1,10 @@
 .DS_Store
+.~*
+main.pdf
+main.log
+main.out
+main.aux
+main.synctex*
+main.toc
+missing.aux
+missfont.log
