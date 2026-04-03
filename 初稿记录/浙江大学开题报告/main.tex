@@ -2,6 +2,10 @@
 \documentclass[12pt,hyperref,a4paper,UTF8]{ctexart}
 \usepackage{zjureport}
 
+\documentclass{article}
+\usepackage{tabularx}
+\usepackage{array}
+
 %%-------------------------------正文开始---------------------------%%
 \begin{document}
 
@@ -98,22 +102,6 @@ With the rapid development of digital technology in the field of stomatology, in
 
 口腔数据智能分析是连接三维数据采集与义齿智能设计的关键中间环节，主要涵盖牙齿实例分割、解剖特征点识别以及备牙区域提取与颈缘线检测三个核心任务。
 
-%% 2.2.1 牙齿实例分割
-\subsubsection{牙齿实例分割}
-
-牙齿实例分割是从完整的口扫三维模型中自动识别并分离每颗牙齿的技术，是后续分析和设计的基础。根据三维数据表征形式的不同，现有方法主要分为基于点云和基于网格两大类。
-
-
-%% 2. 国内外研究现状
-\section{国内外研究现状}
-
-围绕数字化口腔场景下义齿智能设计的全链路流程，本节从口腔数据智能分析、人工智能辅助义齿设计、牙冠仿真与数字化制造三个维度，对国内外研究现状进行系统梳理与评述，并在此基础上指出现有研究的不足与本研究的定位。
-
-%% 2.1 口腔数据智能分析
-\subsection{口腔数据智能分析}
-
-口腔数据智能分析是连接三维数据采集与义齿智能设计的关键中间环节，主要涵盖牙齿实例分割、解剖特征点识别以及备牙区域提取与颈缘线检测三个核心任务。
-
 %% 2.1.1 牙齿实例分割
 \subsubsection{牙齿实例分割}
 
@@ -164,16 +152,16 @@ Ping等\cite{ping2021self}提出基于自注意力隐式函数网络的牙冠形
 
 在生成架构层面，牙冠形状生成经历了从早期统计模型到深度生成模型的显著演进。早期基于主成分分析（PCA）的统计形状模型（SSM）将牙冠形变空间表示为有限维线性子空间，具有可解释性强、泛化稳定的优点，但对非线性形变建模能力有限，处理个体差异较大的牙冠形态时容易出现过平滑现象。生成对抗网络（GAN）阶段，Tian等\cite{tian2021dcpr}提出DCPR-GAN双阶段条件生成网络，第一阶段预测牙冠整体轮廓，第二阶段在轮廓约束下精细化生成磨牙冠面细节，实现了磨牙咬合面的高质量自动重建；但训练不稳定与模式崩塌等问题制约了其广泛应用。近年来，基于Transformer的点云生成模型（如PointTr、AdaPointTr）凭借强大的长程依赖建模能力，在三维形状补全任务上全面超越了此前的卷积方法，并已被引入牙冠形状生成场景\cite{alsheghri2024adaptive}；去噪扩散概率模型（DDPM）及其变体凭借生成多样性高、无模式崩塌的优点，正逐步成为三维牙冠生成的新研究热点。Broll等\cite{broll2024generative}对基于生成深度学习的牙科修复体设计方法进行了系统综述，指出相较于传统数字化设计方法，深度学习生成方法的形状重建误差约降低50\%。国内多个团队已将条件扩散模型与三维点云Transformer引入牙冠形状生成任务，并与爱迪特、正海生物等义齿加工企业开展产学研合作，推进AI辅助牙冠设计系统的产业化落地。
 
-%% 2.2.3 基于几何优化的形状精调
-\subsubsection{基于几何优化的形状精调}
+%% 2.2.3 几何形状优化精调
+\subsubsection{几何形状优化精调}
 
 深度学习生成的初始牙冠形状通常需要进一步几何优化以满足严格的临床约束，主要包括：边缘贴合性（颈缘与颈缘线精确对齐，边缘间隙在临床允许范围内）、预备体包裹性（内腔面完整包裹预备体，保证均匀粘接层间隙）、咬合接触关系（与对颌牙建立正确功能性咬合接触，避免咬合干扰）以及邻接接触关系（与两侧邻牙保持适当邻面接触，防止食物嵌塞）。国内外现有方法主要采用基于能量函数最小化的网格变形框架，将上述临床约束编码为对应的能量项，结合Laplacian正则化与形状保持能量项，通过L-BFGS或Adam优化器进行迭代求解\cite{broll2024generative}。国内部分团队进一步提出基于自适应权重调整策略的能量优化框架，通过动态平衡各约束项的贡献以缓解多约束冲突问题；另有研究尝试将强化学习引入形状精调过程，以临床评价指标作为奖励信号进行端到端优化，取得了初步的正向效果。然而，如何在多个相互冲突的约束之间实现自动协调，仍是该方向尚待深入解决的核心问题。
 
 %% 2.3 牙冠仿真与数字化制造
 \subsection{牙冠仿真与数字化制造}
 
-%% 2.3.1 虚拟咬合仿真分析
-\subsubsection{虚拟咬合仿真分析}
+%% 2.3.1 咬合虚拟仿真
+\subsubsection{咬合虚拟仿真}
 
 虚拟咬合仿真是在实物制造前对设计方案进行定量力学验证的重要手段，主要涵盖静态咬合接触分析、动态下颌运动仿真和有限元力学评估三个层面。在静态咬合分析方面，基于层次包围盒（BVH）加速的三角面片相交检测与有符号距离场（SDF）碰撞检测方法被广泛用于评估初始牙尖交错位下的咬合接触均匀性，判断是否存在早接触或咬合高点。在动态下颌运动仿真方面，参数化运动学模型基于患者个性化的髁突间距、矢状髁道斜度、Bennett角等解剖参数，模拟下颌开闭口、前伸、侧方等功能性运动轨迹，实时计算牙冠在咀嚼运动全程中的动态接触状态；国内四川大学华西口腔医学院、空军军医大学口腔医院等机构围绕虚拟架模拟系统的开发及其与国产CAD软件的集成开展了大量工程化研究。在有限元力学评估方面，通过建立包含牙冠、粘接层、预备体、牙周膜和牙槽骨的多材料分层有限元模型，施加模拟咀嚼载荷，以Von Mises等效应力准则预测应力集中区域和潜在失效路径；国内外研究均表明氧化锆全瓷冠在最薄处800--1200\,$\mu$m厚度设计下通常可满足临床使用要求，
 上述研究成果为临床材料选择与冠形设计优化提供了重要力学依据。
@@ -188,13 +176,30 @@ Ping等\cite{ping2021self}提出基于自注意力隐式函数网络的牙冠形
 
 通过以上系统梳理，可以看出国内外在数字化口腔义齿智能设计各环节已取得丰富的研究成果，但整体上仍存在以下几方面的突出不足：
 
-（1）\textbf{全链路整合不足。}现有研究大多聚焦于某一单一环节，缺乏将数据分析、智能设计与仿真验证有机串联的系统性研究框架，各模块之间的接口不统一、误差传播问题被忽视，难以形成完整的闭环工作流。
+\begin{table}[!htbp]
+    \centering
+    \caption{现有研究的主要不足}
+    \label{tab:research_gap}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabularx}{\textwidth}{
+        >{\centering\arraybackslash}p{3.2cm}
+        >{\raggedright\arraybackslash}X
+    }
+    \hline
+    \textbf{不足类型} & \textbf{具体表现} \\
+    \hline
+    全链路整合不足
+      & 现有研究大多聚焦于某一单一环节，缺乏将系统性研究框架，各模块接口不统一、误差传播问题被忽视，难以形成完整的闭环工作流 \\
+    多约束融合不足
+      & 现有牙冠生成方法多以几何相似性为主要目标，对颈缘适配、预备体包裹、咬合及邻接关系等临床约束的同步满足考虑不足，导致生成结果临床实用性不佳 \\
+    仿真反馈机制缺失
+      & 虚拟咬合仿真通常作为设计完成后的单向验证工具，缺乏将仿真结果反馈至设计优化阶段的迭代机制，难以实现设计方案的自动修正与改进 \\
+    临床数据支撑不足
+      & 大量研究基于小规模实验室数据集，缺乏在大规模、多样化真实临床病例上的系统验证，方法临床泛化性有待评估 \\
+    \hline
+    \end{tabularx}
+\end{table}
 
-（2）\textbf{多约束融合深度不足。}现有牙冠生成方法多以几何形状相似性作为主要优化目标，对颈缘适配、预备体包裹、咬合关系、邻接关系等多项临床约束的同步满足考虑不充分，导致生成结果在临床实用性方面仍有明显差距。
-
-（3）\textbf{仿真与设计的闭环反馈缺失。}现有研究中虚拟咬合仿真通常作为设计完成后的单向验证工具，缺乏将仿真分析结果反馈至设计优化阶段的闭环迭代机制，难以实现设计方案的自动修正与改进。
-
-（4）\textbf{临床真实数据支撑不足。}大量研究基于小规模实验室数据集，缺乏在大规模、多样化真实临床病例上的系统验证，方法的临床泛化性有待深入评估。
 
 针对上述不足，本研究将围绕数字化口腔义齿智能设计的全链路关键问题，系统研究从口腔三维数据智能分析、AI辅助牙冠设计到虚拟仿真验证与快速制造的完整技术体系，重点突破数据驱动与临床知识引导相融合的方法论框架，以期实现义齿设计全流程的高精度、高自动化与高可靠性。
 
@@ -296,119 +301,6 @@ Ping等\cite{ping2021self}提出基于自注意力隐式函数网络的牙冠形
 
 （3）形成一套完整的数字化义齿智能设计技术方案，经临床验证后推动技术转化应用，促进口腔修复的数字化与智能化升级。
 
-\subsection{参考文献}
-
-%%可选择这里也放一个标题
-%\begin{center}
-%    \title{ \Huge \textbf{{标题}}}
-%\end{center}
-
-\section{模板说明}
-本模板主要适用于一些课程的平时论文以及期末论文，默认页边距为2.5cm，中文宋体，英文Times New Roman，字号为12pt（小四）。
-
-编译方式：\verb|xelatex -> bibtex -> xelatex*2|
-
-
-默认模板文件由以下四部分组成：
-\begin{itemize}
-    \item \texttt{main.tex} 主文件
-    \item \texttt{reference.bib} 参考文献，使用bibtex
-    \item \texttt{zjureport.sty} 文档格式控制，包括一些基础的设置，如页眉、标题、姓名等
-    \item \texttt{figures} 放置图片的文件夹
-\end{itemize}
-
-第一次使用时需前往\texttt{zjureport.sty} 对标题、姓名、学号、院所、页眉等进行设置，设置完后即可一劳永逸，封面logo亦可替换
-
-默认带有封面页以及目录页，页码从目录页开始
-
-\section{一些插入功能}
-\subsection{插入公式}
-行内公式$v-\varepsilon+\phi=2$。
-
-插入行间公式如\autoref{Euler}：
-\begin{equation}
-    v-\varepsilon+\phi=2
-    \label{Euler}
-\end{equation}
-
-\subsection{插入图片}
-ZJU校徽如\autoref{ZJU}所示，注意这里使用了\verb|~\autoref{}|命令，也就是会自动生成“图”“式”等前缀，无需手动输入。
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width =.4\textwidth]{figures/zju_logo.png}
-    \caption{浙江大学}
-    \label{ZJU}
-\end{figure}
-
-插入上面图片的代码：
-
-\begin{verbatim}
-    \begin{figure}[!htbp]
-        \centering
-        \includegraphics[width =.4\textwidth]{figures/ucas_logo.pdf}
-        \caption{浙江大学}
-        \label{ZJU}
-    \end{figure}
-\end{verbatim}
-
-\subsection{插入文本框}
-本模板定义了一个圆角灰底的文本框，使用简化命令\verb|\tbox{}|即可，如果你不喜欢，可以前往 \texttt{ZJUReport.sty}对其进行修改。
-
-\tbox{
-    这是一个圆角灰底的文本框
-}
-
-\subsection{插入表格}
-本模板文件如\autoref{doc}所示。
-\begin{table}[!htbp]
-    \centering
-    \begin{tabular}{l  | l}
-    \hline
-        文件名 & 说明 \\
-        \hline
-        \texttt{main.tex}  & 主文件 \\
-        \texttt{reference.bib} & 参考文献 \\
-        \texttt{ZJUReport.sty}  & 文档格式控制\\
-        \texttt{figures}  & 图片文件夹 \\
-    \hline
-    \end{tabular}
-    \caption{本模板文件组成}
-    \label{doc}
-\end{table}
-
-%\section{定理环境}
-%\begin{Theorem}
-%\end{Theorem}
-%
-%\begin{Lemma}
-%\end{Lemma}
-%
-%\begin{Corollary}
-%\end{Corollary}
-%
-%\begin{Proposition}
-%\end{Proposition}
-%
-%\begin{Definition}
-%\end{Definition}
-%
-%\begin{Example}
-%\end{Example}
-%
-%\begin{proof}
-%\end{proof}
-
-\subsection{插入参考文献}
-直接使用\verb|\cite{}|即可。
-
-
-\section{写在最后}
-\subsection{发布地址}
-\begin{itemize}
-    \item Github: \url{https://github.com/haochengxia/zjureport}
-    \item Overleaf:  \url{https://www.overleaf.com/latex/templates/ZJUke-cheng-lun-wen-mo-ban/bcwvxncqffkw}
-\end{itemize}
 
 %%----------- 参考文献 -------------------%%
 \bibliographystyle{unsrt}
